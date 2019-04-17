@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CoinCool.Views.ItemsPage"
+              Title="{Binding Title}"
+             x:Name="BrowseItemsPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="New Subscribe" Clicked="AddItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <ListView x:Name="ItemsListView"
+                ItemsSource="{Binding Coins}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                RefreshCommand="{Binding LoadItemsCommand}"
+                IsPullToRefreshEnabled="true"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                CachingStrategy="RecycleElement"
+                ItemSelected="OnItemSelected">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame CornerRadius="15" Margin="4">
+
+                            <StackLayout Padding="4">
+
+                                <StackLayout Orientation="Horizontal"  Spacing="20">
+
+                                    <Image Source="Resources/drawable/tab_about.png" BackgroundColor="CornflowerBlue" HeightRequest="50" WidthRequest="50" />
+
+                                    <StackLayout Orientation="Vertical" HeightRequest="50">
+
+                                        <Label Text="{Binding fullName}"
+                                           LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           FontSize="16"/>
+
+                                        <Label Text="{Binding quote.usd.price}" 
+                                           LineBreakMode="NoWrap"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="13"/>
+
+                                    </StackLayout>
+
+                                    <StackLayout Orientation="Vertical" HeightRequest="50" HorizontalOptions="EndAndExpand">
+
+                                        <Label Text= "500"
+                                           LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           FontSize="16"/>
+
+                                        <Label Text= "+16"
+                                           LineBreakMode="NoWrap"
+                                           TextColor="green"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="13"/>
+
+                                    </StackLayout>
+
+                                </StackLayout>
+
+                                <RelativeLayout HorizontalOptions="FillAndExpand">
+
+                                    <StackLayout Orientation="Vertical" 
+                                             RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=.0000,Constant=0}"
+                                             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
+                                    Property=Width,Factor=.3333,Constant=0}" HorizontalOptions="StartAndExpand">
+
+                                        <Label Text="{Binding Text}" 
+                                           LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           FontSize="16"
+                                           HorizontalTextAlignment="Start"/>
+
+                                        <Label Text="24H HIGH"
+                                           LineBreakMode="NoWrap"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="13"
+                                           HorizontalTextAlignment="Start"/>
+                                    </StackLayout>
+
+                                    <StackLayout Orientation="Vertical" 
+                                             RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=.3333,Constant=0}"
+                                             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
+                                    Property=Width,Factor=.3333,Constant=0}" HorizontalOptions="CenterAndExpand">
+
+                                        <Label Text="{Binding Text}" 
+                                           LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           FontSize="16"
+                                           HorizontalTextAlignment="Center"/>
+
+                                        <Label Text="Volume"
+                                           LineBreakMode="NoWrap"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="13"
+                                           HorizontalTextAlignment="Center"/>
+
+                                    </StackLayout>
+
+                                    <StackLayout Orientation="Vertical"  
+                                             RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=.6666,Constant=0}"
+                                             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
+                                    Property=Width,Factor=.3333,Constant=0}" HorizontalOptions="EndAndExpand">
+
+                                        <Label Text="{Binding Text}" 
+                                           LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           FontSize="16"
+                                           HorizontalTextAlignment="End"/>
+
+                                        <Label Text="24H LOW"
+                                           LineBreakMode="NoWrap"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="13"
+                                           HorizontalTextAlignment="End"/>
+
+                                    </StackLayout>
+
+                                </RelativeLayout>
+
+                            </StackLayout>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+    
+</ContentPage>
