@@ -33,7 +33,7 @@
 
                                     <StackLayout Orientation="Vertical" HeightRequest="50">
 
-                                        <Label Text="{Binding fullName}"
+                                        <Label Text="{Binding name}"
                                            LineBreakMode="NoWrap" 
                                            Style="{DynamicResource ListItemTextStyle}" 
                                            FontSize="16"/>

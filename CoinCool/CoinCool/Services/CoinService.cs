@@ -9,63 +9,72 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using CoinCool.Models;
+using CoinCool.Services;
 using Newtonsoft.Json;
 
 namespace CoinCool.Services
 {
-    class CoinService : ICoinService<CoinResponse>
+    class CoinService : ICoinService<List<CryptoInfo>>
     {
-        WebClient client;
-        public CoinResponse Items { get; private set; }
+        private readonly WebClient _client;
+        public CryptoInfo Items { get; set; }
 
         public CoinService()
         {
-            client = new WebClient();
+            _client = new WebClient();
         }
 
-        public async Task<CoinResponse> GetAllCoins()
+        public async Task<List<CryptoInfo>> GetAllCoins()
         {
             try
             {
                 var coin = GetCoins();
-                Debug.WriteLine("IIIIIIIIIIIIIIIIIIIIIIIIIIi : " + coin);
-                var res = JsonConvert.DeserializeObject<CoinResponse>(coin);
-                Debug.WriteLine(@"XXXXXXXXXXXXXXXXXXXXXXXXXXXx {0} EIEI", res.status.timestamp);
+                var res = JsonConvert.DeserializeObject<Dictionary<string, Crypto>>(coin);
 
-                return res;
+                return SetCryptoInfo(res);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
+                return new List<CryptoInfo>();
             }
+        }
+
+        private List<CryptoInfo> SetCryptoInfo(Dictionary<string, Crypto> res)
+        {
+            var cryptoInfos = new List<CryptoInfo>();
+            cryptoInfos.Clear();
+
+            foreach (var resKey in res.Keys)
+            {
+                var crypto = res[resKey];
+
+                var cryptoInfo = new CryptoInfo();
+                cryptoInfo.id = crypto.id;
+                cryptoInfo.key = resKey;
+                cryptoInfo.name = CryptoName.GetCryptoName(resKey);
+                cryptoInfo.imgUrl = CryptoImage.GetCryptoImageUrl(resKey);
+                cryptoInfo.last = crypto.last;
+                cryptoInfo.lowestAsk = crypto.lowestAsk;
+                cryptoInfo.highestBid = crypto.highestBid;
+                cryptoInfo.percentChange = crypto.percentChange;
+                cryptoInfo.baseVolume = crypto.baseVolume;
+                cryptoInfo.quoteVolume = crypto.quoteVolume;
+                cryptoInfo.isFrozen = crypto.isFrozen;
+                cryptoInfo.high24hr = crypto.high24hr;
+                cryptoInfo.low24hr = crypto.low24hr;
+
+                cryptoInfos.Add(cryptoInfo);
+            }
+
+            return cryptoInfos;
         }
 
         private string GetCoins()
         {
-            var url = new UriBuilder("https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest");
-            var queryString = HttpUtility.ParseQueryString(string.Empty);
-
-            url.Query = queryString.ToString();
-
-            client.Headers.Add("X-CMC_PRO_API_KEY", BaseService.Key);
-            client.Headers.Add("Accepts", "application/json");
-            return client.DownloadString(url.ToString());
-        }
-
-        public async Task<CoinResponse> GetCoinInfo(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<CoinResponse> AddFavoriteCoin(string coinId, string myId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<CoinResponse> RemoveFavoriteCoin(string coinId, string myId)
-        {
-            throw new NotImplementedException();
+            var url = new UriBuilder(BaseService.BaseUrl);
+            _client.Headers.Add("Accepts", "application/json");
+            return _client.DownloadString(url.ToString());
         }
     }
 }

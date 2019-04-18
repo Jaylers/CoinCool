@@ -23,10 +23,10 @@ namespace CoinCool.Views
         {
             InitializeComponent();
 
-            var item = new Item
+            var item = new CryptoInfo()
             {
-                Text = "Item 1",
-                Description = "This is an item description."
+                key = "Item 1",
+                name = "This is an item description."
             };
 
             viewModel = new ItemDetailViewModel(item);

@@ -11,17 +11,17 @@ namespace CoinCool.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        public ObservableCollection<Coin> Coins { get; set; }
+        public ObservableCollection<CryptoInfo> Coins { get; set; }
         public Command LoadItemsCommand { get; set; }
 
         public ItemsViewModel()
         {
             Title = "Coin cool";
-            Coins = new ObservableCollection<Coin>();
+            Coins = new ObservableCollection<CryptoInfo>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             //Subscribe Item in NewItemPage.cs to add to the list show
-            MessagingCenter.Subscribe<NewItemPage, Coin>(this, "Subscribe", async (obj, item) =>
+            MessagingCenter.Subscribe<NewItemPage, CryptoInfo>(this, "Subscribe", async (obj, item) =>
             {
                 
             });
@@ -38,14 +38,12 @@ namespace CoinCool.ViewModels
             try
             {
                 var data = new CoinService().GetAllCoins().Result;
-                foreach (var value in data.data)
+               
+                foreach (var value in data)
                 {
-                    Debug.WriteLine("ITEM : " + value.name);
+                    Debug.WriteLine("ITEM : " + value.key);
                     Coins.Add(value);
                 }
-
-                Debug.WriteLine("XXXXXXXXXXX : " + Coins.Count);
-
             }
             catch (Exception ex)
             {
