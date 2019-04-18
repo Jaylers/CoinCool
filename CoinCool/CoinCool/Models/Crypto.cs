@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Numerics;
+using Xamarin.Forms;
 
 namespace CoinCool.Models
 {
@@ -35,5 +33,6 @@ namespace CoinCool.Models
         public string high24hr { get; set; }
         public string low24hr { get; set; }
 
+        public Color color => BigInteger.Parse(percentChange) < 0 ? Color.Red : Color.Green;
     }
 }

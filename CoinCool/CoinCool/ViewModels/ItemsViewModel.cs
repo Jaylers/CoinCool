@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using CoinCool.Models;
@@ -38,10 +39,8 @@ namespace CoinCool.ViewModels
             try
             {
                 var data = new CoinService().GetAllCoins().Result;
-               
                 foreach (var value in data)
                 {
-                    Debug.WriteLine("ITEM : " + value.key);
                     Coins.Add(value);
                 }
             }
