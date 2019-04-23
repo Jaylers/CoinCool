@@ -5,7 +5,7 @@
             x:Class="CoinCool.Views.MainPage">
 
     <TabbedPage.Children>
-        <NavigationPage Title="Crypto currency" HasNavigationBar="False" BarBackgroundColor="DarkOrange" BackgroundColor="LightGray">
+        <NavigationPage Title="Crypto currency" HasNavigationBar="False" BackgroundColor="#F4F6F6">
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_feed.png"/>
@@ -17,7 +17,7 @@
             </x:Arguments>
         </NavigationPage>
 
-        <NavigationPage Title="My Crypto" BarBackgroundColor="DarkOrange" BackgroundColor="White">
+        <NavigationPage Title="My Crypto" BackgroundColor="White">
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_about.png"/>

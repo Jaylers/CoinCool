@@ -5,10 +5,22 @@
              Title="{Binding Title}">
 
     <StackLayout Spacing="20" Padding="15">
-        <Label Text="Text:" FontSize="Medium" />
-        <Label Text="{Binding Item.Text}" FontSize="Small"/>
-        <Label Text="Description:" FontSize="Medium" />
-        <Label Text="{Binding Item.Description}" FontSize="Small"/>
+        <Label Text="{Binding Title}" FontSize="Large"/>
+
+        <Label Text="24H HIGH :" FontSize="Medium" />
+        <Label Text="{Binding SocketCrypto.high24hr}" FontSize="Small"/>
+
+        <Label Text="24H LOW :" FontSize="Medium" />
+        <Label Text="{Binding SocketCrypto.low24hr}" FontSize="Small"/>
+
+        <Label Text="Current :" FontSize="Medium" />
+        <Label Text="{Binding SocketCrypto.last}" FontSize="Small"/>
+
+        <Label Text="Percent Change :" FontSize="Medium" />
+        <Label Text="{Binding SocketCrypto.percentChange}" FontSize="Small"/>
+
+        <Label Text="Market total :" FontSize="Medium" />
+        <Label Text="{Binding SocketCrypto.quoteVolume}" FontSize="Small"/>
     </StackLayout>
     
 </ContentPage>

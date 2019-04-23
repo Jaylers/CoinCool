@@ -10,16 +10,16 @@ namespace CoinCool.Views
 {
     public partial class NewItemPage : ContentPage
     {
-        public Item Item { get; set; }
+        public CryptoInfo Item { get; set; }
 
         public NewItemPage()
         {
             InitializeComponent();
 
-            Item = new Item
+            Item = new CryptoInfo
             {
-                Text = "Item name",
-                Description = "This is an item description."
+                key = "Key",
+                name = "Name"
             };
 
             BindingContext = this;

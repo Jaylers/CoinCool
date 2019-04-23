@@ -1,50 +1,53 @@
-﻿using System;
+﻿
+using CoinCool.Models;
+using Newtonsoft.Json;
+using System;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using CoinCool.Models;
-using Newtonsoft.Json;
 
-namespace CoinCool.ViewModels
+namespace CoinCool.Services
 {
-    public class ItemDetailViewModel : BaseViewModel
+    class CryptoService : IDisposable
     {
         public event EventHandler<SocketCrypto> SocketCryptoData;
-        System.Timers.Timer _timer = new System.Timers.Timer(5000);
+        System.Timers.Timer _timer = new System.Timers.Timer(15000);
         ClientWebSocket ws;
-        public SocketCrypto SocketCrypto { get; set; }
-        public ItemDetailViewModel(CryptoInfo item)
+        private string key;
+
+        public CryptoService(string nameKey)
         {
-            Title = item?.name;
-            SocketCrypto = new SocketCrypto
-            {
-                stream = item.name,
-                id = item.id,
-                last = item.last,
-                lowestAsk = item.lowestAsk,
-                highestBid = item.highestBid,
-                percentChange = item.percentChange,
-                baseVolume = item.baseVolume,
-                quoteVolume = item.quoteVolume,
-                isFrozen = item.isFrozen,
-                high24hr = item.high24hr,
-                low24hr = item.low24hr
-            };
-            StartLoadingData("market.ticker." + item.key.ToLower());
+            _timer.Elapsed += _timer_Elapsed;
+            key = "market.trade." + nameKey;
         }
 
-        public async void StartLoadingData(string key)
+        private async void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (ws.State == WebSocketState.Open)
+            {
+                await SendData("2");
+            }
+        }
+
+        private async Task SendData(String str)
+        {
+            var encoded2 = Encoding.UTF8.GetBytes(str);
+            var buffer2 = new ArraySegment<Byte>(encoded2, 0, encoded2.Length);
+            await ws.SendAsync(buffer2, WebSocketMessageType.Text, true, CancellationToken.None);
+        }
+
+
+        public async void StartLoadingData()
         {
             ws = new ClientWebSocket();
-            await ws.ConnectAsync(new Uri("wss://api.bitkub.com/websocket-api/" + key), CancellationToken.None);
+            await ws.ConnectAsync(new Uri("wss://api.bitkub.com/websocket-api/"+key), CancellationToken.None);
 
             _timer.Start();
 
             ArraySegment<Byte> readbuffer = new ArraySegment<byte>(new Byte[8192]);
             while (ws.State == WebSocketState.Open)
             {
-                Console.WriteLine("\r\n XXXXXXXXXXXXXXXXXXX WebSocketState of " + key + " is " + ws.State);
                 try
                 {
                     var result = await ws.ReceiveAsync(readbuffer, CancellationToken.None);
@@ -52,17 +55,12 @@ namespace CoinCool.ViewModels
                     SocketCrypto updateValue = JsonConvert.DeserializeObject<SocketCrypto>(str);
                     if (updateValue != null)
                     {
-                        SocketCrypto = updateValue;
                         SocketCryptoData?.Invoke(this, updateValue);
-                    }
-                    else
-                    {
-                        Console.WriteLine("XXXXXXXXXXXXXXXXXXX : Empty");
                     }
                 }
                 catch (TaskCanceledException)
                 {
-                    System.Diagnostics.Debug.Write("XXXXXXXXXXXXXXXXXXX WebSocket Stopped");
+                    System.Diagnostics.Debug.Write("WebSocket Stopped");
                 }
             }
         }
@@ -97,6 +95,4 @@ namespace CoinCool.ViewModels
         }
 
     }
-
-
 }

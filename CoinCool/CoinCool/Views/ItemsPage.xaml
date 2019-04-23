@@ -9,6 +9,7 @@
         <ToolbarItem Text="New Subscribe" Clicked="AddItem_Clicked"/>
     </ContentPage.ToolbarItems>
 
+
     <StackLayout>
         <ListView x:Name="ItemsListView"
                 ItemsSource="{Binding Coins}"
@@ -23,22 +24,22 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Frame CornerRadius="15" Margin="4">
+                        <Frame CornerRadius="15" Margin="8, 4, 8, 4">
 
                             <StackLayout Padding="4">
 
-                                <StackLayout Orientation="Horizontal"  Spacing="20">
+                                <StackLayout Orientation="Horizontal"  Spacing="5">
 
-                                    <Image Source="Resources/drawable/tab_about.png" BackgroundColor="CornflowerBlue" HeightRequest="50" WidthRequest="50" />
+                                    <Image Source="{Binding imgUrl}" HeightRequest="50" WidthRequest="50" />
 
                                     <StackLayout Orientation="Vertical" HeightRequest="50">
 
-                                        <Label Text="{Binding fullName}"
+                                        <Label Text="{Binding name}"
                                            LineBreakMode="NoWrap" 
                                            Style="{DynamicResource ListItemTextStyle}" 
                                            FontSize="16"/>
 
-                                        <Label Text="{Binding quote.usd.price}" 
+                                        <Label Text="" 
                                            LineBreakMode="NoWrap"
                                            Style="{DynamicResource ListItemDetailTextStyle}"
                                            FontSize="13"/>
@@ -47,14 +48,14 @@
 
                                     <StackLayout Orientation="Vertical" HeightRequest="50" HorizontalOptions="EndAndExpand">
 
-                                        <Label Text= "500"
+                                        <Label Text= "{Binding last}"
                                            LineBreakMode="NoWrap" 
                                            Style="{DynamicResource ListItemTextStyle}" 
                                            FontSize="16"/>
 
-                                        <Label Text= "+16"
+                                        <Label Text= "{Binding percentChange}"
                                            LineBreakMode="NoWrap"
-                                           TextColor="green"
+                                           TextColor="Blue"
                                            Style="{DynamicResource ListItemDetailTextStyle}"
                                            FontSize="13"/>
 
@@ -62,14 +63,14 @@
 
                                 </StackLayout>
 
-                                <RelativeLayout HorizontalOptions="FillAndExpand">
+                                <RelativeLayout HorizontalOptions="FillAndExpand" Margin="0, 10, 0, 0">
 
                                     <StackLayout Orientation="Vertical" 
                                              RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=.0000,Constant=0}"
                                              RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
                                     Property=Width,Factor=.3333,Constant=0}" HorizontalOptions="StartAndExpand">
 
-                                        <Label Text="{Binding Text}" 
+                                        <Label Text="{Binding high24hr}" 
                                            LineBreakMode="NoWrap" 
                                            Style="{DynamicResource ListItemTextStyle}" 
                                            FontSize="16"
@@ -87,7 +88,7 @@
                                              RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
                                     Property=Width,Factor=.3333,Constant=0}" HorizontalOptions="CenterAndExpand">
 
-                                        <Label Text="{Binding Text}" 
+                                        <Label Text="{Binding quoteVolume}" 
                                            LineBreakMode="NoWrap" 
                                            Style="{DynamicResource ListItemTextStyle}" 
                                            FontSize="16"
@@ -106,7 +107,7 @@
                                              RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
                                     Property=Width,Factor=.3333,Constant=0}" HorizontalOptions="EndAndExpand">
 
-                                        <Label Text="{Binding Text}" 
+                                        <Label Text="{Binding low24hr}" 
                                            LineBreakMode="NoWrap" 
                                            Style="{DynamicResource ListItemTextStyle}" 
                                            FontSize="16"
