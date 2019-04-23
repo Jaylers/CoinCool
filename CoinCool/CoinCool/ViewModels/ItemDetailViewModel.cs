@@ -42,9 +42,9 @@ namespace CoinCool.ViewModels
             _timer.Start();
 
             ArraySegment<Byte> readbuffer = new ArraySegment<byte>(new Byte[8192]);
-            Console.WriteLine("ClientWebSocket : " + ws.State);
             while (ws.State == WebSocketState.Open)
             {
+                Console.WriteLine("\r\n XXXXXXXXXXXXXXXXXXX WebSocketState of " + key + " is " + ws.State);
                 try
                 {
                     var result = await ws.ReceiveAsync(readbuffer, CancellationToken.None);
@@ -52,7 +52,6 @@ namespace CoinCool.ViewModels
                     SocketCrypto updateValue = JsonConvert.DeserializeObject<SocketCrypto>(str);
                     if (updateValue != null)
                     {
-                        Console.WriteLine("\r\n XXXXXXXXXXXXXXXXXXX : <stream>" + updateValue.stream + " <last> " + updateValue.last + " <baseVolume> " + updateValue.baseVolume + " <quoteVolume> " + updateValue.quoteVolume);
                         SocketCrypto = updateValue;
                         SocketCryptoData?.Invoke(this, updateValue);
                     }
