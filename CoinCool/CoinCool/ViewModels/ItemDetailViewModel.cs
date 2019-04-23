@@ -13,7 +13,15 @@ namespace CoinCool.ViewModels
         public event EventHandler<SocketCrypto> SocketCryptoData;
         System.Timers.Timer _timer = new System.Timers.Timer(5000);
         ClientWebSocket ws;
-        public SocketCrypto SocketCrypto { get; set; }
+        private SocketCrypto _socketCrypto;
+        public SocketCrypto SocketCrypto {
+            get => _socketCrypto;
+            set
+            {
+                _socketCrypto = value;
+                RaisePropertyChanged(nameof(SocketCrypto));
+            }
+        }
         public ItemDetailViewModel(CryptoInfo item)
         {
             Title = item?.name;
