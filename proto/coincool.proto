@@ -1,0 +1,54 @@
+syntax = "proto3";
+package com.traditionasia.coincool.proto;
+option optimize_for = SPEED;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+
+message CryptoRequestP {
+	string key = 1;
+}
+
+message CryptoP {
+	string id = 1;
+	string last = 2;
+	string lowestAsk = 3;
+	string highestBid = 4;
+	string percentChange = 5;
+	string baseVolume = 6;
+	string quoteVolume = 7;
+	string isFrozen = 8;
+	string high24hr = 9;
+	string low24hr = 10;
+}
+
+message CryptoInfoP {
+	string id = 1;
+	string key = 2;
+	string imgUrl = 3;
+	string name = 4;
+	string last = 5;
+	string lowestAsk = 6;
+	string highestBid = 7;
+	string percentChange = 8;
+	string baseVolume = 9;
+	string quoteVolume = 10;
+	string isFrozen = 11;
+	string high24hr = 12;
+	string low24hr = 13;
+}
+
+message SocketCryptoP {
+	string stream = 1;
+	string id = 2;
+	string last = 3;
+	string lowestAsk = 4;
+	string highestBid = 5;
+	string percentChange = 6;
+	string baseVolume = 7;
+	string quoteVolume = 8;
+	string isFrozen = 9;
+	string high24hr = 10;
+	string low24hr = 11;
+}

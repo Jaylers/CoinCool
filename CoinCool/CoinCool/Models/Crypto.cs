@@ -49,5 +49,5 @@ namespace CoinCool.Models
         public string isFrozen { get; set; }
         public string high24hr { get; set; }
         public string low24hr { get; set; }
-}
+    }
 }

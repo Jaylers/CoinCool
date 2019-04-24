@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using CoinCool.Models;
 using CoinCool.Services;
 using CoinCool.Views;
+using Com.Traditionasia.Coincool.Proto;
 
 namespace CoinCool.ViewModels
 {
@@ -19,7 +20,7 @@ namespace CoinCool.ViewModels
         {
             Title = "Coin cool";
             Coins = new ObservableCollection<CryptoInfo>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            LoadItemsCommand = new Command(() => ExecuteLoadItemsCommand());
 
             //Subscribe Item in NewItemPage.cs to add to the list show
             MessagingCenter.Subscribe<NewItemPage, CryptoInfo>(this, "Subscribe", async (obj, item) =>
@@ -28,7 +29,7 @@ namespace CoinCool.ViewModels
             });
         }
 
-        async Task ExecuteLoadItemsCommand()
+        void ExecuteLoadItemsCommand()
         {
             if (IsBusy)
                 return;

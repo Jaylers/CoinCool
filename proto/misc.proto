@@ -1,0 +1,5 @@
+syntax = "proto3";
+package com.traditionasia.coincool.proto;
+option optimize_for = SPEED;
+
+message EmptyP {}
